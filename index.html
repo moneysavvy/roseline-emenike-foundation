@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roseline Emenike Foundation - Empowering Futures in Nigeria</title>
+    <meta name="description" content="The Roseline Emenike Foundation is transforming disability inclusion in Nigeria, building a future of dignity, independence, and opportunity for every child.">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Roseline Emenike Foundation - Empowering Futures in Nigeria">
+    <meta property="og:description" content="Transforming disability inclusion in Nigeria through assistive technology, rehabilitation, and community empowerment.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://roselineemenikefoundation.org">
+    <meta property="og:image" content="https://roselineemenikefoundation.org/og-image.jpg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #4338CA;
+            --secondary-color: #10B981;
+            --accent-color: #F59E0B;
+            --dark-color: #111827;
+            --light-color: #F9FAFB;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --border-color: #E5E7EB;
+            
+            --font-body: 'Inter', sans-serif;
+            --font-heading: 'DM Serif Display', serif;
+
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 30px -5px rgba(67, 56, 202, 0.3);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--light-color);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease-in-out;
+            padding: 1rem 0;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .logo-svg {
+            width: 50px;
+            height: 50px;
+        }
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            line-height: 1;
+        }
+        .logo-text span {
+            display: block;
+            font-size: 0.7rem;
+            font-family: var(--font-body);
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--primary-color);
+        }
+        .nav-menu a:hover::after, .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .donate-btn {
+            background: linear-gradient(45deg, var(--primary-color), #6D28D9);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .donate-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background-color: #E0E7FF;
+            padding-top: 80px;
+        }
+        .hero-background {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+        }
+        .hero-background .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(67, 56, 202, 0.1), rgba(16, 185, 129, 0.1));
+            animation: float 20s ease-in-out infinite;
+        }
+        .shape1 { width: 40vw; height: 40vw; top: -10vw; left: -10vw; animation-delay: 0s; }
+        .shape2 { width: 30vw; height: 30vw; top: 50vh; right: -15vw; animation-delay: 5s; }
+        .shape3 { width: 25vw; height: 25vw; bottom: -5vw; left: 20vw; animation-delay: 10s; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+        }
+        .hero-text {
+            text-align: left;
+        }
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+        }
+        .hero-illustration {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-illustration svg {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+        .cta-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), #6D28D9);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background: white;
+            border-color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* General Section Styles */
+        section {
+            padding: 7rem 0;
+            position: relative;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-badge {
+            display: inline-block;
+            background-color: #E0E7FF;
+            color: var(--primary-color);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* About Section */
+        .about { background-color: white; }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .about-visual {
+            position: relative;
+        }
+        .about-visual svg {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-item {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: var(--font-heading);
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Programs Section */
+        .programs {
+            background: linear-gradient(180deg, var(--light-color) 0%, #E0E7FF 100%);
+        }
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .program-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .program-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: white;
+        }
+        .program-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, var(--primary-color), #6D28D9);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .program-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        .program-card p {
+            color: var(--text-secondary);
+        }
+        
+        /* Impact Section */
+        #impact {
+            background-color: var(--dark-color);
+            color: white;
+            clip-path: polygon(0 0, 100% 10vh, 100% 100%, 0 90vh);
+            padding: 12rem 0;
+        }
+        #impact .section-badge { background-color: rgba(255,255,255,0.1); color: white; }
+        #impact .section-title { color: white; }
+        #impact .section-subtitle { color: #D1D5DB; }
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+        .impact-stat {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .impact-stat:hover {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            transform: translateY(-5px);
+        }
+        .impact-number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #fff, var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .impact-label {
+            font-size: 1rem;
+            color: #D1D5DB;
+        }
+        
+        /* Stories Section */
+        .stories { background-color: white; }
+        .stories-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 5rem;
+        }
+        .story-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--light-color);
+            border-radius: 24px;
+            padding: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .story-card:nth-child(even) .story-image { grid-column: 2; grid-row: 1; }
+        .story-card:nth-child(even) .story-content { grid-column: 1; grid-row: 1; }
+        .story-image {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        .story-image svg { width: 100%; height: auto; display: block; }
+        .story-content { padding: 1rem; }
+        .story-content h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        .story-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .story-author {
+            font-weight: 600;
+            color: var(--primary-color);
+            display: block;
+            margin-top: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+        }
+        .contact-info h3, .contact-form-wrapper h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+        }
+        .contact-item { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 2rem; }
+        .contact-item-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: #E0E7FF;
+            color: var(--primary-color);
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+        }
+        .contact-item-content h4 { font-weight: 700; font-size: 1.1rem; color: var(--dark-color); margin-bottom: 0.25rem; }
+        .contact-item-content p, .contact-item-content a { color: var(--text-secondary); text-decoration: none; }
+        .contact-item-content a:hover { color: var(--primary-color); }
+        .map-wrapper { margin-top: 4rem; text-align: center; }
+        .map-wrapper h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 2rem; color: var(--dark-color); }
+        .map-wrapper .map-container {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Form Styling */
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+            background: var(--light-color);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15);
+            background: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: #E5E7EB;
+            padding: 5rem 0 2rem;
+            margin-top: 5rem;
+            clip-path: polygon(0 10vh, 100% 0, 100% 100%, 0% 100%);
+        }
+        .footer-grid {
+            padding-top: 5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        .footer-section h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+        .footer-section a { color: #D1D5DB; text-decoration: none; transition: color 0.3s ease; }
+        .footer-section a:hover { color: var(--secondary-color); }
+        .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .social-link {
+            display: grid;
+            place-items: center;
+            width: 44px; height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-link:hover { background: var(--primary-color); transform: translateY(-3px); }
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9CA3AF;
+            font-size: 0.9rem;
+        }
+        .footer-bottom a { color: #9CA3AF; text-decoration: underline; }
+        .footer-bottom a:hover { color: white; }
+
+        /* Floating Donate Button */
+        #floating-donate {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            z-index: 999;
+            background: linear-gradient(45deg, var(--primary-color), #6D28D9);
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            width: 64px; height: 64px;
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: grid;
+            place-items: center;
+            text-decoration: none;
+        }
+        #floating-donate i { font-size: 1.5rem; transition: transform 0.3s ease; }
+        #floating-donate span { display: none; }
+        #floating-donate:hover {
+            width: 150px;
+            border-radius: 50px;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+        #floating-donate:hover i { display: none; }
+        #floating-donate:hover span {
+            display: inline;
+            font-weight: 700;
+        }
+
+        /* Scroll Animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { order: 2; }
+            .hero-illustration { order: 1; margin-bottom: 2rem; }
+            .hero-text p { margin-left: auto; margin-right: auto; }
+            .cta-buttons { justify-content: center; }
+            .about-grid { grid-template-columns: 1fr; }
+            .story-card, .story-card:nth-child(even) { grid-template-columns: 1fr; }
+            .story-card:nth-child(even) .story-image { grid-column: 1; grid-row: 1; }
+            .story-card:nth-child(even) .story-content { grid-column: 1; grid-row: 2; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            section { padding: 5rem 0; }
+            #impact { clip-path: polygon(0 0, 100% 5vh, 100% 100%, 0 95vh); padding: 8rem 0; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="#home" class="logo">
+                <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 10C27.9086 10 10 27.9086 10 50C10 72.0914 27.9086 90 50 90C72.0914 90 90 72.0914 90 50C90 38.9959 85.7865 28.9814 80 21.6708" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M75 15C83.2843 15 90 21.7157 90 30C90 38.2843 83.2843 45 75 45C70.8359 45 67.1105 42.9247 64.647 39.853" stroke="#4338CA" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M50 35C41.7157 35 35 41.7157 35 50C35 58.2843 41.7157 65 50 65C58.2843 65 65 58.2843 65 50C65 41.7157 58.2843 35 50 35Z" fill="#059669"/>
+                    <path d="M50 35C41.7157 35 35 41.7157 35 50C35 58.2843 41.7157 65 50 65C58.2843 65 65 58.2843 65 50C65 41.7157 58.2843 35 50 35Z" fill="url(#paint0_linear_101_2)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_101_2" x1="35" y1="35" x2="65" y2="65" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#4338CA"/>
+                    <stop offset="1" stop-color="#6D28D9"/>
+                    </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text">
+                    Roseline Emenike
+                    <span>F O U N D A T I O N</span>
+                </div>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#stories">Stories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <a href="#donate" class="donate-btn">
+                <i class="fas fa-heart"></i>
+                Donate Now
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-background">
+                <div class="shape shape1"></div>
+                <div class="shape shape2"></div>
+                <div class="shape shape3"></div>
+            </div>
+            <div class="container hero-content">
+                <div class="hero-text scroll-reveal">
+                    <h1>Hope in Motion, Futures in Focus.</h1>
+                    <p>We are dedicated to dismantling barriers for children with disabilities in Nigeria, providing the tools, therapy, and support they need to thrive with dignity and independence.</p>
+                    <div class="cta-buttons">
+                        <a href="#donate" class="btn btn-primary">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            Support Our Cause
+                        </a>
+                        <a href="#stories" class="btn btn-secondary">
+                            <i class="fas fa-book-open"></i>
+                            Read Stories
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-illustration scroll-reveal">
+                    <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M250 450C360.457 450 450 360.457 450 250C450 139.543 360.457 50 250 50C139.543 50 50 139.543 50 250C50 360.457 139.543 450 250 450Z" fill="#FFFFFF" fill-opacity="0.5"/>
+                        <g filter="url(#filter0_d_101_10)">
+                        <path d="M227.5 162.5L250 112.5L272.5 162.5L325 187.5L272.5 212.5L250 262.5L227.5 212.5L175 187.5L227.5 162.5Z" fill="#FBBF24"/>
+                        </g>
+                        <path d="M175 350C175 315.667 208.333 300 250 300C291.667 300 325 315.667 325 350" stroke="#4B5563" stroke-width="8" stroke-linecap="round"/>
+                        <circle cx="200" cy="350" r="25" fill="#4338CA"/>
+                        <circle cx="300" cy="350" r="25" fill="#4338CA"/>
+                        <path d="M175 350H150C141.716 350 135 343.284 135 335V275C135 266.716 141.716 260 150 260H160" stroke="#4B5563" stroke-width="8" stroke-linecap="round"/>
+                        <path d="M325 350H350C358.284 350 365 343.284 365 335V275C365 266.716 358.284 260 350 260H340" stroke="#4B5563" stroke-width="8" stroke-linecap="round"/>
+                        <circle cx="250" cy="237.5" r="37.5" fill="#10B981"/>
+                        <path d="M225 287.5C233.333 295.833 266.667 295.833 275 287.5" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                        <defs>
+                        <filter id="filter0_d_101_10" x="171" y="112.5" width="158" height="154" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="4"/>
+                        <feGaussianBlur stdDeviation="2"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_101_10"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_101_10" result="shape"/>
+                        </filter>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <div class="section-badge">Our Mission</div>
+                    <h2 class="section-title">Building Bridges to Opportunity</h2>
+                    <p class="section-subtitle">The Roseline Emenike Foundation exists to transform disability inclusion in Nigeria, creating pathways to independence and dignity for children with disabilities.</p>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-visual scroll-reveal">
+                        <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="500" height="500" rx="24" fill="#F9FAFB"/>
+                            <path d="M100 200C100 144.772 144.772 100 200 100H300C355.228 100 400 144.772 400 200V300C400 355.228 355.228 400 300 400H200C144.772 400 100 355.228 100 300V200Z" fill="#E0E7FF"/>
+                            <circle cx="250" cy="250" r="120" fill="white"/>
+                            <path d="M250 150C194.772 150 150 194.772 150 250C150 305.228 194.772 350 250 350" stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-dasharray="1 24"/>
+                            <path d="M250 150C305.228 150 350 194.772 350 250C350 305.228 305.228 350 250 350" stroke="#4338CA" stroke-width="12" stroke-linecap="round" stroke-dasharray="1 24"/>
+                            <circle cx="250" cy="250" r="40" fill="#4338CA"/>
+                            <path d="M235 250L245 260L265 240" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="180" cy="180" r="20" fill="#FBBF24"/>
+                            <circle cx="320" cy="180" r="20" fill="#FBBF24"/>
+                            <circle cx="180" cy="320" r="20" fill="#FBBF24"/>
+                            <circle cx="320" cy="320" r="20" fill="#FBBF24"/>
+                            <path d="M200 180H250" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M300 180H250" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M200 320H250" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M300 320H250" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="about-content scroll-reveal">
+                        <h3><i class="fas fa-bullseye"></i> Our Core Mission</h3>
+                        <p>To close the disability inclusion gap in Nigeria by expanding access to assistive technology and rehabilitation services, while investing in local leaders and organizations to foster sustainable, community-rooted change.</p>
+                        
+                        <h3><i class="fas fa-handshake-angle"></i> Our Partnership Model</h3>
+                        <p>In strategic partnership with the Emenike-Ogunnaike Foundation (EOF) in California, we bridge international support with grassroots action, ensuring that global resources create profound and lasting local impact.</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-number">7.7M</span>
+                                <div class="stat-label">Children with disabilities in Nigeria</div>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">&lt;3%</span>
+                                <div class="stat-label">Have access to assistive technology</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs Section -->
+        <section id="programs" class="programs">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <div class="section-badge">Our Programs</div>
+                    <h2 class="section-title">Proven Solutions for Lasting Impact</h2>
+                    <p class="section-subtitle">We focus on four interconnected, evidence-based pillars that create measurable change in the lives of children and their communities.</p>
+                </div>
+                
+                <div class="programs-grid">
+                    <div class="program-card scroll-reveal">
+                        <div class="program-icon"><i class="fas fa-wheelchair-move"></i></div>
+                        <h3>Assistive Technology</h3>
+                        <p>Providing life-changing tools like wheelchairs, hearing aids, and communication devices to ensure no child is limited by a lack of resources.</p>
+                    </div>
+                    <div class="program-card scroll-reveal" style="transition-delay: 0.1s;">
+                        <div class="program-icon"><i class="fas fa-heart-pulse"></i></div>
+                        <h3>Rehabilitation Services</h3>
+                        <p>Bringing physical, occupational, and speech therapy directly into communities to improve function and promote long-term independence.</p>
+                    </div>
+                    <div class="program-card scroll-reveal" style="transition-delay: 0.2s;">
+                        <div class="program-icon"><i class="fas fa-school-flag"></i></div>
+                        <h3>Educational Inclusion</h3>
+                        <p>Working to increase school enrollment through accessibility improvements, teacher training, and inclusive community initiatives.</p>
+                    </div>
+                    <div class="program-card scroll-reveal" style="transition-delay: 0.3s;">
+                        <div class="program-icon"><i class="fas fa-users-gear"></i></div>
+                        <h3>Ecosystem Strengthening</h3>
+                        <p>Supporting local disability organizations with strategic grants and capacity building to scale their impact and create sustainable change.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section id="impact" class="impact">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <div class="section-badge">Our Impact in Numbers</div>
+                    <h2 class="section-title">Measuring What Matters</h2>
+                    <p class="section-subtitle">Every number represents a life changed, a barrier removed, and a future made possible. We are transparent about our goals and our progress.</p>
+                </div>
+                
+                <div class="impact-grid">
+                    <div class="impact-stat scroll-reveal">
+                        <span class="impact-number">$300K</span>
+                        <p class="impact-label">Initial funding for 2025</p>
+                    </div>
+                    <div class="impact-stat scroll-reveal" style="transition-delay: 0.1s;">
+                        <span class="impact-number">20+</span>
+                        <p class="impact-label">Partner organizations</p>
+                    </div>
+                    <div class="impact-stat scroll-reveal" style="transition-delay: 0.2s;">
+                        <span class="impact-number">5</span>
+                        <p class="impact-label">States targeted initially</p>
+                    </div>
+                    <div class="impact-stat scroll-reveal" style="transition-delay: 0.3s;">
+                        <span class="impact-number">100%</span>
+                        <p class="impact-label">Commitment to transparency</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stories Section -->
+        <section id="stories" class="stories">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <div class="section-badge">Stories of Hope</div>
+                    <h2 class="section-title">Lives Transformed by Your Support</h2>
+                    <p class="section-subtitle">Behind every number is a human story. These are the real-world impacts of our collective work, made possible by partners and donors like you.</p>
+                </div>
+                
+                <div class="stories-grid">
+                    <article class="story-card scroll-reveal">
+                        <div class="story-image">
+                            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="300" rx="16" fill="#FFFBEB"/>
+                                <path d="M200 250 C250 250 300 220 350 180" stroke="#FBBF24" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M50 180 C100 220 150 250 200 250" stroke="#FDE68A" stroke-width="8" stroke-linecap="round"/>
+                                <circle cx="120" cy="150" r="15" fill="#4338CA"/>
+                                <rect x="110" y="165" width="20" height="30" rx="10" fill="#4338CA"/>
+                                <circle cx="100" cy="200" r="12" stroke="#4B5563" stroke-width="4" fill="#fff"/>
+                                <circle cx="140" cy="200" r="12" stroke="#4B5563" stroke-width="4" fill="#fff"/>
+                                <path d="M250 100 L270 140 L230 140 Z" fill="#10B981"/>
+                                <rect x="245" y="140" width="10" height="60" rx="5" fill="#059669"/>
+                                <path d="M140 150C180 120 220 120 250 150" stroke="#10B981" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 8"/>
+                            </svg>
+                        </div>
+                        <div class="story-content">
+                            <h3>Amina's Journey to the Classroom</h3>
+                            <p>At 8 years old, Amina received her first wheelchair. It wasn't just a device; it was a key. Today, she attends school, plays with friends, and dreams of becoming a teacher, proving that mobility is the first step to possibility.</p>
+                            <span class="story-author">— Community Partner, Kano State</span>
+                        </div>
+                    </article>
+                    
+                    <article class="story-card scroll-reveal">
+                        <div class="story-image">
+                            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="300" rx="16" fill="#F0F9FF"/>
+                                <path d="M100 100 H300 V200 H100 Z" fill="#fff" stroke="#E0E7FF" stroke-width="4"/>
+                                <path d="M120 120 L180 160 L220 140 L280 180" stroke="#10B981" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="200" cy="100" r="20" fill="#4338CA"/>
+                                <path d="M190 120 H210 V180 H190 Z" fill="#4338CA" rx="10"/>
+                                <path d="M250 50 L270 90 L230 90 Z" fill="#FBBF24"/>
+                                <path d="M300 250 C250 250 200 220 150 180" stroke="#4338CA" stroke-width="4" stroke-dasharray="4 8" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="story-content">
+                            <h3>The Power of a Voice</h3>
+                            <p>Through our rehabilitation services, 12-year-old Chidi learned to communicate using assistive technology. His school in Lagos, once unequipped, now has three other children with hearing impairments enrolled, inspired by his success.</p>
+                            <span class="story-author">— Education Partner, Lagos</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-header scroll-reveal">
+                    <div class="section-badge">Get in Touch</div>
+                    <h2 class="section-title">Let's Build the Future, Together</h2>
+                    <p class="section-subtitle">Whether you have a question, a partnership idea, or want to join our mission, we are ready to connect with you.</p>
+                </div>
+
+                <div class="contact-grid scroll-reveal">
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <div class="contact-item">
+                            <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="contact-item-content">
+                                <h4>Nigeria Headquarters</h4>
+                                <p>Lagos, Nigeria</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-item-content">
+                                <h4>Email Us</h4>
+                                <p><a href="mailto:info@roselineemenikefoundation.org">info@roselineemenikefoundation.org</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-item-icon"><i class="fas fa-handshake-angle"></i></div>
+                            <div class="contact-item-content">
+                                <h4>US Partnership Office</h4>
+                                <p><a href="mailto:partnership@eof.org">partnership@eof.org</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form-wrapper">
+                        <h3>Send a Message</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="contact-name">Full Name *</label>
+                                <input type="text" id="contact-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email Address *</label>
+                                <input type="email" id="contact-email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Message *</label>
+                                <textarea id="contact-message" name="message" rows="5" required placeholder="Tell us how we can help..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="map-wrapper scroll-reveal">
+                    <h3>Our Growing Network Across Nigeria</h3>
+                    <div class="map-container">
+                        <svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M262.5 100L550 100L650 175L625 325L500 400L250 425L150 350L100 250L187.5 175L262.5 100Z" fill="#E0E7FF"/>
+                            <path d="M262.5 100L550 100L650 175L625 325L500 400L250 425L150 350L100 250L187.5 175L262.5 100Z" stroke="#4338CA" stroke-width="2" stroke-opacity="0.5"/>
+                            <circle cx="300" cy="275" r="8" fill="#4338CA"/>
+                            <text x="300" y="300" text-anchor="middle" font-size="14" fill="#1F2937" font-weight="bold">Lagos</text>
+                            <circle cx="425" cy="200" r="12" fill="#4338CA">
+                                <animate attributeName="r" values="12;16;12" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x="425" y="180" text-anchor="middle" font-size="14" fill="#1F2937" font-weight="bold">Abuja (HQ)</text>
+                            <circle cx="500" cy="150" r="8" fill="#4338CA"/>
+                            <text x="500" y="130" text-anchor="middle" font-size="14" fill="#1F2937" font-weight="bold">Kano</text>
+                            <circle cx="525" cy="280" r="8" fill="#4338CA"/>
+                            <text x="525" y="305" text-anchor="middle" font-size="14" fill="#1F2937" font-weight="bold">Enugu</text>
+                            <circle cx="200" cy="200" r="5" fill="#10B981" opacity="0.7"/>
+                            <circle cx="250" cy="150" r="5" fill="#10B981" opacity="0.7"/>
+                            <circle cx="575" cy="225" r="5" fill="#10B981" opacity="0.7"/>
+                            <circle cx="350" cy="350" r="5" fill="#10B981" opacity="0.7"/>
+                            <circle cx="450" cy="375" r="5" fill="#10B981" opacity="0.7"/>
+                            <path d="M425 200 C 350 225, 325 250, 300 275" stroke="#4338CA" stroke-width="2" stroke-dasharray="4 4" stroke-opacity="0.6"/>
+                            <path d="M425 200 C 450 180, 475 160, 500 150" stroke="#4338CA" stroke-width="2" stroke-dasharray="4 4" stroke-opacity="0.6"/>
+                            <path d="M425 200 C 475 225, 500 250, 525 280" stroke="#4338CA" stroke-width="2" stroke-dasharray="4 4" stroke-opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <a href="#home" class="logo" style="margin-bottom: 1.5rem;">
+                        <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 10C27.9086 10 10 27.9086 10 50C10 72.0914 27.9086 90 50 90C72.0914 90 90 72.0914 90 50C90 38.9959 85.7865 28.9814 80 21.6708" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M75 15C83.2843 15 90 21.7157 90 30C90 38.2843 83.2843 45 75 45C70.8359 45 67.1105 42.9247 64.647 39.853" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M50 35C41.7157 35 35 41.7157 35 50C35 58.2843 41.7157 65 50 65C58.2843 65 65 58.2843 65 50C65 41.7157 58.2843 35 50 35Z" fill="#059669"/>
+                            <path d="M50 35C41.7157 35 35 41.7157 35 50C35 58.2843 41.7157 65 50 65C58.2843 65 65 58.2843 65 50C65 41.7157 58.2843 35 50 35Z" fill="url(#paint0_linear_footer)"/>
+                            <defs>
+                                <linearGradient id="paint0_linear_footer" x1="35" y1="35" x2="65" y2="65" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="white"/>
+                                    <stop offset="1" stop-color="#E0E7FF"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="logo-text" style="color: white;">
+                            Roseline Emenike 
+                            <span style="color: #9CA3AF;">F O U N D A T I O N</span>
+                        </div>
+                    </a>
+                    <p>Empowering futures and transforming disability inclusion across Nigeria.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#programs">Programs</a></li>
+                        <li><a href="#stories">Impact Stories</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Get Involved</h3>
+                    <ul>
+                        <li><a href="#donate">Donate Now</a></li>
+                        <li><a href="#contact">Volunteer</a></li>
+                        <li><a href="#contact">Partnerships</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Stay Connected</h3>
+                    <p>Subscribe to our newsletter for updates on our work and impact.</p>
+                    <form style="margin-top: 1rem; display: flex;">
+                        <input type="email" placeholder="Your Email" style="width: 100%; border-radius: 8px 0 0 8px; padding: 0.75rem; border: none; background: #374151; color: white;">
+                        <button type="submit" style="border: none; background: var(--primary-color); color: white; padding: 0 1rem; border-radius: 0 8px 8px 0; cursor: pointer;">Go</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Roseline Emenike Foundation. All Rights Reserved. | In partnership with the <strong>Emenike-Ogunnaike Foundation</strong>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Donate Button -->
+    <a href="#donate" id="floating-donate" aria-label="Donate Now">
+        <i class="fas fa-heart"></i>
+        <span>Donate</span>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header scroll effect
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href.length > 1) {
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Active nav link highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Scroll reveal animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Form submissions (demo)
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const button = this.querySelector('button[type="submit"]');
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    button.disabled = true;
+
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fas fa-check"></i> Sent!';
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                            this.reset();
+                        }, 2000);
+                    }, 1500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
