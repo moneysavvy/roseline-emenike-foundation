@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tola's Domain Selection Tool</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; 
+      margin: 0; 
+      padding: 0;
+      line-height: 1.5;
+      color: #333;
+      background: #f9f9f9;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    header {
+      background: #005A9C;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h1 { 
+      margin: 0;
+      font-weight: 300;
+      font-size: 32px;
+    }
+    .subtitle {
+      margin-top: 10px;
+      font-weight: 300;
+      opacity: 0.9;
+    }
+    .timestamp { 
+      color: #666; 
+      font-size: 14px; 
+      margin-bottom: 20px; 
+      text-align: center;
+    }
+    .category { 
+      margin-top: 40px; 
+      padding-bottom: 10px; 
+      border-bottom: 2px solid #005A9C; 
+      font-size: 20px; 
+      color: #005A9C;
+      font-weight: 500;
+    }
+    table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      margin: 15px 0 25px 0;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    th { 
+      background: #f3f3f3; 
+      text-align: left; 
+      padding: 12px 15px; 
+      border: 1px solid #ddd;
+      font-weight: 600;
+    }
+    td { 
+      padding: 12px 15px; 
+      border: 1px solid #ddd;
+    }
+    tr:nth-child(even) { 
+      background-color: #f9f9f9; 
+    }
+    .available { 
+      color: #2ecc71; 
+      font-weight: bold;
+    }
+    .taken { 
+      color: #e74c3c;
+    }
+    .priority { 
+      background-color: #fff9db;
+      border-left: 3px solid #ffd43b;
+    }
+    .note { 
+      background: #f8f8f8; 
+      padding: 15px; 
+      border-left: 4px solid #005A9C; 
+      margin: 20px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      color: #777;
+      font-size: 14px;
+    }
+    .domain-cell {
+      font-family: monospace;
+      font-weight: 600;
+    }
+    .email {
+      color: #555;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    .purchase-link {
+      display: inline-block;
+      padding: 5px 15px;
+      background: #2ecc71;
+      color: white;
+      text-decoration: none;
+      border-radius: 3px;
+      font-size: 13px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .purchase-link:hover {
+      background: #27ae60;
+    }
+    .price {
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+    .alternatives {
+      font-size: 13px;
+      color: #7f8c8d;
+    }
+    .alt-domain {
+      display: inline-block;
+      background: #f1f1f1;
+      padding: 3px 6px;
+      border-radius: 3px;
+      margin-right: 5px;
+      font-family: monospace;
+    }
+    .banner-notice {
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      color: #333;
+    }
+    
+    .banner-notice h2 {
+      margin-top: 0;
+      color: #444;
+    }
+    
+    .selection-counter {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      font-weight: bold;
+      font-size: 18px;
+      z-index: 1000;
+      display: none;
+      animation: bounce 1s infinite alternate;
+    }
+    
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-5px); }
+    }
+    
+    .counter-highlight {
+      animation: pulse-highlight 0.3s ease-in-out;
+    }
+    
+    @keyframes pulse-highlight {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    .selected {
+      background-color: #e8fff0 !important;
+      border-left: 5px solid #4CAF50 !important;
+      position: relative;
+    }
+    
+    .selected::after {
+      content: "✓";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #4CAF50;
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .selection-panel {
+      background: #e74c3c;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: none;
+      border: 3px solid #c0392b;
+      color: white;
+    }
+    
+    .selection-panel h3 {
+      margin-top: 0;
+      color: white;
+      font-size: 22px;
+    }
+    
+    .checkout-btn {
+      display: inline-block;
+      background: #f1c40f;
+      color: #333;
+      padding: 15px 30px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: all 0.3s;
+      border: 3px solid #f39c12;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      text-transform: uppercase;
+    }
+    
+    .checkout-btn:hover {
+      background: #f39c12;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    
+    #selected-domains {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    #selected-domains li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    #email-template {
+      display: none;
+      padding: 20px;
+      background: #f9f9f9;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+    
+    #thank-you-message {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      background: #e8f7e8;
+      border-radius: 5px;
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      top: -10px;
+    }
+    
+    .email-preview {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    
+    .email-header {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .email-body {
+      margin-bottom: 20px;
+    }
+    
+    .email-footer {
+      font-size: 12px;
+      color: #777;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+    
+    .copy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    
+    .copy-btn:hover {
+      background: #2980b9;
+    }
+    
+    .domain-badge {
+      display: inline-block;
+      background: #e8f4ff;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin: 2px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    
+    .selection-required-notice {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 0 4px 4px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .notice-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    
+    .selection-required-notice h3 {
+      margin-top: 0;
+      color: #856404;
+    }
+    
+    .credit {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #888;
+    }
+    
+    .final-summary {
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      padding: 30px;
+      margin: 30px 0;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .final-summary h2 {
+      color: #2E7D32;
+      margin-top: 0;
+    }
+    
+    .summary-domains {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .summary-domain-item {
+      background: white;
+      margin: 8px auto;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 400px;
+      font-family: monospace;
+      font-weight: bold;
+      color: #333;
+      font-size: 16px;
+    }
+    
+    .price-total {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+    
+    .submit-btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #4CAF50, #2E7D32);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      font-size: 18px;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+    
+    .action-notice {
+      background: #FFF9C4;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin: 15px auto;
+      max-width: 450px;
+    }
+    
+    .confirmation-box {
+      background: white;
+      border: 1px dashed #3498db;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 500px;
+      text-align: left;
+    }
+    
+    .confirmation-box h3 {
+      color: #3498db;
+      margin-top: 0;
+    }
+    
+    .confirmation-box ol {
+      margin-bottom: 0;
+    }
+    
+    .finish-btn {
+      display: block;
+      width: 80%;
+      max-width: 300px;
+      margin: 30px auto 10px;
+      background: linear-gradient(45deg, #2ecc71, #27ae60);
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+    
+    .finish-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+    }
+    
+    tr {
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    tr:hover {
+      background-color: #f5f9ff;
+    }
+    
+    .shine {
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+      background-size: 200% 100%;
+      animation: shine 2s infinite;
+      position: relative;
+    }
+    
+    @keyframes shine {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+  </style>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let selectedDomains = [];
+    const counter = document.createElement('div');
+    counter.className = 'selection-counter';
+    counter.innerHTML = 'Selected: 0';
+    document.body.appendChild(counter);
+    
+    // Custom domain search functionality
+    const searchBtn = document.getElementById('search-domain-btn');
+    const customInput = document.getElementById('custom-domain-input');
+    const resultsDiv = document.getElementById('custom-results');
+    const resultsTable = document.getElementById('custom-results-table');
+    const orgCheckbox = document.getElementById('include-org');
+    const comCheckbox = document.getElementById('include-com');
+    const netCheckbox = document.getElementById('include-net');
+    
+    // Make all rows in the document selectable 
+    function setupSelectableRows() {
+      document.querySelectorAll('table tr').forEach(row => {
+        if (!row.querySelector('th') && !row.hasAttribute('data-setup-complete')) { // Skip header rows and already set up rows
+          row.setAttribute('data-setup-complete', 'true');
+          
+          row.addEventListener('click', function() {
+            const domainCell = this.querySelector('.domain-cell');
+            if (domainCell) {
+              const domain = domainCell.textContent.trim();
+              const statusCell = this.querySelector('td:nth-child(2)');
+              
+              // If it's in the main tables (has a status cell)
+              if (statusCell && statusCell.textContent.includes('Available')) {
+                // If already selected, unselect it
+                if (this.classList.contains('selected')) {
+                  this.classList.remove('selected');
+                  const index = selectedDomains.indexOf(domain);
+                  if (index !== -1) {
+                    selectedDomains.splice(index, 1);
+                  }
+                } else {
+                  // Check if it's a non-.org domain and show warning if needed
+                  if (!domain.endsWith('.org')) {
+                    const proceed = confirm("This domain is not a .org domain, which is the traditional choice for non-profit organizations. You can still select it, but we recommend prioritizing .org domains for non-profits. Would you like to add this domain to your selection?");
+                    if (!proceed) {
+                      return; // Don't select if they cancel
+                    }
+                  }
+                  
+                  this.classList.add('selected');
+                  
+                  if (!selectedDomains.includes(domain)) {
+                    selectedDomains.push(domain);
+                  }
+                }
+                
+                updateSelectionCounter();
+                updateSelectionPanel();
+                updateEmailTemplate();
+              }
+            }
+          });
+        }
+      });
+    }
+    
+    // Initial setup of selectable rows
+    setupSelectableRows();
+    
+    function updateSelectionCounter() {
+      counter.innerHTML = '🛒 Selected: ' + selectedDomains.length + ' domain' + (selectedDomains.length > 1 ? 's' : '');
+      
+      if (selectedDomains.length > 0) {
+        counter.style.display = 'block';
+        // Remove any existing notice about selecting domains
+        const existingNotice = document.querySelector('.selection-required-notice');
+        if (existingNotice) {
+          existingNotice.style.display = 'none';
+        }
+        
+        // Show the custom proceed button if there are search results
+        const customProceedBtn = document.getElementById('custom-proceed-btn');
+        if (customProceedBtn && selectedDomains.length > 0) {
+          customProceedBtn.style.display = 'block';
+        }
+        
+        // Make it more prominent with a special effect when count changes
+        counter.classList.add('counter-highlight');
+        setTimeout(() => {
+          counter.classList.remove('counter-highlight');
+        }, 300);
+      } else {
+        counter.style.display = 'none';
+        
+        // Hide the custom proceed button if no domains are selected
+        const customProceedBtn = document.getElementById('custom-proceed-btn');
+        if (customProceedBtn) {
+          customProceedBtn.style.display = 'none';
+        }
+      }
+    }
+    
+    function updateSelectionPanel() {
+      const panel = document.getElementById('selection-panel');
+      const list = document.getElementById('selected-domains');
+      
+      if (selectedDomains.length > 0) {
+        // Force display block style
+        panel.setAttribute('style', 'display: block !important;');
+        
+        // Update the list
+        list.innerHTML = '';
+        selectedDomains.forEach(domain => {
+          const item = document.createElement('li');
+          item.innerHTML = '<span class="domain-cell">' + domain + '</span>';
+          list.appendChild(item);
+        });
+        
+        // Update estimate
+        const estimateElem = document.getElementById('price-estimate');
+        const basePrice = 12.99;
+        const totalPrice = (basePrice * selectedDomains.length).toFixed(2);
+        estimateElem.textContent = '$' + totalPrice;
+        
+        // Make sure checkout button is visible
+        const checkoutBtn = document.getElementById('checkout-btn');
+        if (checkoutBtn) {
+          checkoutBtn.setAttribute('style', 'display: inline-block !important;');
+        }
+      } else {
+        panel.style.display = 'none';
+      }
+    }
+    
+    function updateEmailTemplate() {
+      const emailContent = document.getElementById('email-domains-list');
+      if (emailContent) {
+        emailContent.innerHTML = '';
+        selectedDomains.forEach(domain => {
+          const badge = document.createElement('span');
+          badge.className = 'domain-badge';
+          badge.textContent = domain;
+          emailContent.appendChild(badge);
+          emailContent.appendChild(document.createTextNode(' '));
+        });
+      }
+      
+      // Update email example in the template
+      const emailExample = document.getElementById('email-example');
+      
+      // If we have selected domains, use the first one for the example
+      if (selectedDomains.length > 0) {
+        const firstDomain = selectedDomains[0];
+        if (emailExample) {
+          emailExample.textContent = 'chika@' + firstDomain;
+        }
+      }
+    }
+    
+    // Copy email template
+    document.getElementById('copy-email-btn').addEventListener('click', function() {
+      const emailText = document.getElementById('email-preview').innerText;
+      navigator.clipboard.writeText(emailText).then(() => {
+        this.textContent = 'Copied!';
+        setTimeout(() => {
+          this.textContent = 'Copy to Clipboard';
+        }, 2000);
+      });
+    });
+    
+    // Show a final summary before finishing
+    function showFinalSummary() {
+      if (selectedDomains.length > 0) {
+        // Create a summary div
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = 'final-summary';
+        summaryDiv.innerHTML = `
+          <h2>Your Domain Selection Summary</h2>
+          <p>You've selected ${selectedDomains.length} domain${selectedDomains.length > 1 ? 's' : ''} for the Roseline Emenike Foundation:</p>
+          <ul class="summary-domains"></ul>
+          <p class="price-total">Total estimated cost: <strong>$${(12.99 * selectedDomains.length).toFixed(2)}/year</strong></p>
+          <div class="action-notice">
+            <p>Click the button below to send your selection to Tola and complete your order.</p>
+          </div>
+          <a href="#" id="send-to-tola" class="submit-btn">Send to Tola & Complete Order</a>
+        `;
+        
+        // Add to the page right after thank-you-message
+        const thankYou = document.getElementById('thank-you-message');
+        thankYou.parentNode.insertBefore(summaryDiv, thankYou.nextSibling);
+        
+        // Add the domains to the list
+        const domainList = summaryDiv.querySelector('.summary-domains');
+        selectedDomains.forEach(domain => {
+          const li = document.createElement('li');
+          li.className = 'summary-domain-item';
+          li.textContent = domain;
+          domainList.appendChild(li);
+        });
+        
+        // Add event listener to the new button
+        document.getElementById('send-to-tola').addEventListener('click', function(e) {
+          e.preventDefault();
+          sendEmailToTola();
+        });
+      }
+    }
+    
+    // Send email to Tola
+    function sendEmailToTola() {
+      if (selectedDomains.length > 0) {
+        const domainsText = selectedDomains.join('\n- ');
+        const subject = encodeURIComponent('Domain Selections for Roseline Emenike Foundation');
+        const body = encodeURIComponent(`Hello Tola,
+
+I've selected the following domains for the Roseline Emenike Foundation:
+
+- ${domainsText}
+
+Total domains: ${selectedDomains.length}
+Estimated cost: $${(12.99 * selectedDomains.length).toFixed(2)}/year
+
+Please contact me to complete the purchase process.
+
+Thank you!`);
+        
+        // Open email client
+        window.location.href = `mailto:tola.ogunnaike@gmail.com?subject=${subject}&body=${body}`;
+        
+        // Show a final thank you alert
+        setTimeout(() => {
+          alert('Thank you for using Tola\'s Domain Selection Tool. Your selections have been sent to Tola Ogunnaike who will contact you shortly.');
+        }, 500);
+      }
+    }
+    
+    // Handle finish button
+    document.getElementById('finish-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Hide the email template
+      document.getElementById('email-template').style.display = 'none';
+      
+      // Show the final summary
+      showFinalSummary();
+    });
+    
+    // Define the handler function
+    function checkoutHandler(e) {
+      if (e) e.preventDefault();
+      
+      // Hide selection panel
+      document.getElementById('selection-panel').style.display = 'none';
+      
+      // Show thank you message with confetti
+      const thankYou = document.getElementById('thank-you-message');
+      thankYou.style.display = 'block';
+      
+      // Show email template
+      document.getElementById('email-template').style.display = 'block';
+      
+      // Create confetti
+      createConfetti();
+      
+      // Hide counter
+      counter.style.display = 'none';
+      
+      // Scroll to thank you
+      thankYou.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Add event listener to checkout button after DOM is fully loaded
+    document.getElementById('checkout-btn').addEventListener('click', checkoutHandler);
+    
+    function createConfetti() {
+      const container = document.getElementById('thank-you-message');
+      const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+      
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+        
+        container.appendChild(confetti);
+        
+        // Animate the confetti
+        const animation = confetti.animate([
+          { transform: 'translateY(0) rotate(0)', opacity: 1 },
+          { transform: 'translateY(' + (Math.random() * 500 + 200) + 'px) rotate(' + Math.random() * 360 + 'deg)', opacity: 0 }
+        ], {
+          duration: Math.random() * 3000 + 2000,
+          easing: 'cubic-bezier(.55,.06,.68,.19)'
+        });
+        
+        animation.onfinish = function() {
+          confetti.remove();
+        };
+      }
+    }
+    
+    // Handle custom domain search
+    searchBtn.addEventListener('click', handleCustomDomainSearch);
+    customInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        handleCustomDomainSearch();
+      }
+    });
+    
+    // Add event listener for the custom proceed button
+    document.getElementById('custom-proceed-btn').addEventListener('click', function() {
+      // Hide custom results section
+      document.getElementById('custom-results').style.display = 'none';
+      
+      // Update the selection panel
+      updateSelectionPanel();
+      
+      // Simulate a click on the main checkout button
+      document.getElementById('checkout-btn').click();
+    });
+    
+    function handleCustomDomainSearch() {
+      // Remove any .org, .com, .net from the input if user accidentally included it
+      let domainBase = customInput.value.trim().toLowerCase();
+      domainBase = domainBase.replace(/\.(org|com|net)$/i, '');
+      
+      if (!domainBase) {
+        alert('Please enter a domain name to search.');
+        return;
+      }
+      
+      // Clear previous results except the header row
+      while (resultsTable.rows.length > 1) {
+        resultsTable.deleteRow(1);
+      }
+      
+      let hasExtensions = false;
+      
+      if (orgCheckbox.checked) hasExtensions = true;
+      if (comCheckbox.checked) hasExtensions = true;
+      if (netCheckbox.checked) hasExtensions = true;
+      
+      if (!hasExtensions) {
+        alert('Please select at least one domain extension (.org, .com, or .net).');
+        return;
+      }
+      
+      // Add results for each selected extension
+      if (orgCheckbox.checked) {
+        addCustomDomainResult(domainBase, 'org');
+      }
+      
+      if (comCheckbox.checked) {
+        addCustomDomainResult(domainBase, 'com');
+      }
+      
+      if (netCheckbox.checked) {
+        addCustomDomainResult(domainBase, 'net');
+      }
+      
+      // Show results section
+      resultsDiv.style.display = 'block';
+      
+      // Clear input for next search
+      customInput.value = '';
+    }
+    
+    function addCustomDomainResult(domainBase, extension) {
+      const domainFull = domainBase + '.' + extension;
+      
+      // Create a new row
+      const row = resultsTable.insertRow();
+      
+      // Add domain cell
+      const domainCell = row.insertCell(0);
+      domainCell.style.padding = '10px';
+      domainCell.style.borderBottom = '1px solid #ddd';
+      domainCell.innerHTML = `<span class="domain-cell">${domainFull}</span>`;
+      
+      // Add actions cell
+      const actionsCell = row.insertCell(1);
+      actionsCell.style.padding = '10px';
+      actionsCell.style.borderBottom = '1px solid #ddd';
+      
+      // Add toggle button
+      const toggleButton = document.createElement('button');
+      
+      // Check if domain is already selected
+      const isSelected = selectedDomains.includes(domainFull);
+      
+      if (isSelected) {
+        toggleButton.textContent = 'Unselect Domain';
+        toggleButton.style.background = '#e74c3c';
+      } else {
+        toggleButton.textContent = 'Select Domain';
+        toggleButton.style.background = '#4CAF50';
+      }
+      
+      toggleButton.style.color = 'white';
+      toggleButton.style.border = 'none';
+      toggleButton.style.padding = '8px 12px';
+      toggleButton.style.borderRadius = '4px';
+      toggleButton.style.cursor = 'pointer';
+      toggleButton.style.marginRight = '10px';
+      
+      // Add "Check Availability" link
+      const checkLink = document.createElement('a');
+      checkLink.href = `https://www.namecheap.com/domains/registration/results/?domain=${domainFull}`;
+      checkLink.textContent = 'Check on Namecheap';
+      checkLink.target = '_blank';
+      checkLink.style.color = '#2980b9';
+      checkLink.style.textDecoration = 'underline';
+      checkLink.style.marginLeft = '10px';
+      
+      // Add elements to the cell
+      actionsCell.appendChild(toggleButton);
+      actionsCell.appendChild(checkLink);
+      
+      // Add click handler for the toggle button
+      toggleButton.addEventListener('click', function(e) {
+        // Prevent event from bubbling up to the row
+        e.stopPropagation();
+        
+        const index = selectedDomains.indexOf(domainFull);
+        
+        // If domain is not in selection list
+        if (index === -1) {
+          // Check if it's a non-.org domain and show warning if needed
+          if (!domainFull.endsWith('.org')) {
+            const proceed = confirm("This domain is not a .org domain, which is the traditional choice for non-profit organizations. You can still select it, but we recommend prioritizing .org domains for non-profits. Would you like to add this domain to your selection?");
+            if (!proceed) {
+              return; // Don't select if they cancel
+            }
+          }
+          
+          // Add to selection
+          selectedDomains.push(domainFull);
+          
+          // Update button appearance to "unselect"
+          toggleButton.textContent = 'Unselect Domain';
+          toggleButton.style.background = '#e74c3c';
+        } else {
+          // Remove from selection
+          selectedDomains.splice(index, 1);
+          
+          // Update button appearance to "select"
+          toggleButton.textContent = 'Select Domain';
+          toggleButton.style.background = '#4CAF50';
+        }
+        
+        // Update UI
+        updateSelectionCounter();
+        updateSelectionPanel();
+        updateEmailTemplate();
+      });
+    }
+  });
+  </script>
+</head>
+<body>
+  <header>
+    <h1 class="float">Tola's Domain Selection Tool</h1>
+    <div class="subtitle pulse">Roseline Emenike Foundation</div>
+  </header>
+  
+  <div class="container">
+    <div class="timestamp">Generated: June 14, 2025 9:30 AM</div>
+    
+    <div class="banner-notice pulse">
+      <h2>👋 Welcome to Tola's Domain Selection Tool</h2>
+      <p>To begin, please click on any available domain to select it. You can select multiple domains if desired.</p>
+      <p>Once you've made your selections, click the "Proceed" button, followed by "Finish & Send to Tola" to complete your order.</p>
+      <p>You can also search for custom domains below if you don't see what you're looking for.</p>
+    </div>
+    
+    <div class="note">
+      <p>This report provides a quick domain availability assessment. Results are based on simple DNS lookups and should be verified with a domain registrar before making purchasing decisions.</p>
+      <p>Pricing shown is estimated for the first year of registration. Most domain registrars offer bulk discounts for registering multiple domains or longer registration periods.</p>
+    </div>
+    
+    <!-- Custom domain search section -->
+    <div class="custom-search-section" style="background: #f1f9ff; padding: 25px; border-radius: 8px; margin: 25px 0; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+      <h3 style="color: #2980b9; margin-top: 0;">Search for Custom Domains</h3>
+      <p>Can't find what you're looking for? Search for custom domain names below:</p>
+      
+      <div style="display: flex; margin-bottom: 15px;">
+        <input type="text" id="custom-domain-input" placeholder="Enter domain name without extension" 
+               style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 4px 0 0 4px; font-size: 16px;">
+        <button id="search-domain-btn" 
+                style="background: #2980b9; color: white; border: none; padding: 0 20px; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold;">
+          Search
+        </button>
+      </div>
+      
+      <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="include-org" checked style="margin-right: 5px;">
+          <span>.org</span>
+        </label>
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="include-com" checked style="margin-right: 5px;">
+          <span>.com</span>
+        </label>
+        <label style="display: flex; align-items: center; cursor: pointer;">
+          <input type="checkbox" id="include-net" checked style="margin-right: 5px;">
+          <span>.net</span>
+        </label>
+      </div>
+      
+      <div id="custom-results" style="display: none; margin-top: 20px; background: white; padding: 15px; border-radius: 5px; border: 1px solid #e0e0e0;">
+        <h4 style="margin-top: 0; color: #333;">Search Results:</h4>
+        <table id="custom-results-table" style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Domain</th>
+            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Action</th>
+          </tr>
+        </table>
+        
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
+          <button id="custom-proceed-btn" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; display: none;">
+            Proceed with Selected Domains
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Selection panel will be displayed when domains are selected -->
+    <div id="selection-panel" class="selection-panel">
+      <h3>Selected Domains</h3>
+      <ul id="selected-domains"></ul>
+      <p>Estimated total: <strong id="price-estimate">$0.00</strong></p>
+      <button id="checkout-btn" class="checkout-btn shine">Proceed with Selected Domains</button>
+    </div>
+    
+    <!-- Thank you message displayed after checkout -->
+    <div id="thank-you-message">
+      <h2 class="pulse">Thank You for Your Selection!</h2>
+      <p>Your domain choices for the Roseline Emenike Foundation have been recorded.</p>
+      <p>We have prepared a draft email template below that you can use to communicate with your team or donors.</p>
+      <p>Your selections have been sent to <strong>tola.ogunnaike@gmail.com</strong> who will contact you shortly to complete the purchase process.</p>
+      
+      <div class="confirmation-box">
+        <h3>What happens next?</h3>
+        <ol>
+          <li>Tola will review your domain selections</li>
+          <li>You'll receive a payment link for the selected domains</li>
+          <li>Once payment is complete, your domains will be registered</li>
+          <li>You'll receive login credentials for domain management</li>
+        </ol>
+      </div>
+    </div>
+    
+    <!-- Email template -->
+    <div id="email-template">
+      <h3>Email Template for Donors/Team</h3>
+      <p>Use this email template to announce your new domain selection:</p>
+      
+      <div id="email-preview" class="email-preview">
+        <div class="email-header">
+          <strong>Subject:</strong> Exciting News: Roseline Emenike Foundation Secures Official Domain Names!
+        </div>
+        <div class="email-body">
+          <p>Dear Valued Supporter,</p>
+          
+          <p>I'm thrilled to share that the Roseline Emenike Foundation has secured its official online presence! After careful consideration, we have registered the following domain names for our organization:</p>
+          
+          <p id="email-domains-list"></p>
+          
+          <p>This is an important milestone for our foundation as we continue to expand our reach and impact. Having these dedicated domains will allow us to:</p>
+          
+          <ul>
+            <li>Create a professional website that showcases our mission, programs, and impact</li>
+            <li>Establish branded email addresses for our team (e.g., <span id="email-example">chika@emenikehope.org</span>)</li>
+            <li>Build credibility and trust with our supporters and beneficiaries</li>
+            <li>Protect our foundation's name and brand in the digital space</li>
+          </ul>
+          
+          <p>In the coming weeks, we will be developing our new website and online presence. We're excited to share our progress with you and welcome any suggestions or feedback you might have.</p>
+          
+          <p>Thank you for your continued support as we take this important step forward.</p>
+          
+          <p>Warm regards,</p>
+          <p>Chika Emenike<br>
+          Roseline Emenike Foundation</p>
+        </div>
+        <div class="email-footer">
+          Roseline Emenike Foundation | Making a difference in Nigeria
+        </div>
+      </div>
+      
+      <button id="copy-email-btn" class="copy-btn">Copy to Clipboard</button>
+      
+      <a href="#" id="finish-btn" class="finish-btn shine">Finish & Send to Tola</a>
+    </div>
+
+    <div class="category">Category 1: Direct & Acronym-Based (7 available)</div>
+    <table>
+      <tr>
+        <th>Domain</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Purchase</th>
+        <th>Alternatives</th>
+      </tr>
+      <tr class="priority">
+        <td class="domain-cell">roselineemenikefoundation.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=roselineemenikefoundation.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">roselineemenikefoundation.com</span>
+          <span class="alt-domain">roselineemenikefoundation.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">the-refoundation.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=the-refoundation.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">the-refoundation.com</span>
+          <span class="alt-domain">the-refoundation.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">ref-foundation.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=ref-foundation.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">ref-foundation.com</span>
+          <span class="alt-domain">ref-foundation.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refoundation.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">weareref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=weareref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">weareref.com</span>
+          <span class="alt-domain">weareref.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">supportref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=supportref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">supportref.com</span>
+          <span class="alt-domain">supportref.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">joinref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=joinref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">joinref.com</span>
+          <span class="alt-domain">joinref.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">theref.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refglobal.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refhq.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refhq.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refhq.com</span>
+          <span class="alt-domain">refhq.net</span>
+        </td>
+      </tr>
+    </table>
+
+    <div class="category">Category 2: Geographic Focus (Nigeria) (8 available)</div>
+    <table>
+      <tr>
+        <th>Domain</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Purchase</th>
+        <th>Alternatives</th>
+      </tr>
+      <tr>
+        <td class="domain-cell">refnigeria.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refnigeria.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refnigeria.com</span>
+          <span class="alt-domain">refnigeria.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">ref-nigeria.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=ref-nigeria.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">ref-nigeria.com</span>
+          <span class="alt-domain">ref-nigeria.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">ref-ng.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=ref-ng.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">ref-ng.com</span>
+          <span class="alt-domain">ref-ng.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">emenikenigeria.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=emenikenigeria.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">emenikenigeria.com</span>
+          <span class="alt-domain">emenikenigeria.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">inclusionnigeria.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=inclusionnigeria.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">inclusionnigeria.com</span>
+          <span class="alt-domain">inclusionnigeria.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">hopefornigeria.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refafrica.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">theref-ng.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=theref-ng.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">theref-ng.com</span>
+          <span class="alt-domain">theref-ng.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refprojectng.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refprojectng.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refprojectng.com</span>
+          <span class="alt-domain">refprojectng.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">emenike-ng.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=emenike-ng.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">emenike-ng.com</span>
+          <span class="alt-domain">emenike-ng.net</span>
+        </td>
+      </tr>
+    </table>
+
+    <div class="category">Category 3: Mission & Action-Oriented (12 available)</div>
+    <table>
+      <tr>
+        <th>Domain</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Purchase</th>
+        <th>Alternatives</th>
+      </tr>
+      <tr>
+        <td class="domain-cell">refimpact.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refimpact.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refimpact.com</span>
+          <span class="alt-domain">refimpact.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">ref-impact.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=ref-impact.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">ref-impact.com</span>
+          <span class="alt-domain">ref-impact.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refinclusion.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refinclusion.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refinclusion.com</span>
+          <span class="alt-domain">refinclusion.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refempowers.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refempowers.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refempowers.com</span>
+          <span class="alt-domain">refempowers.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refmission.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refmission.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refmission.com</span>
+          <span class="alt-domain">refmission.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">ref-mission.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=ref-mission.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">ref-mission.com</span>
+          <span class="alt-domain">ref-mission.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refinitiatives.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refinitiatives.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refinitiatives.com</span>
+          <span class="alt-domain">refinitiatives.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refprojects.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refprojects.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refprojects.com</span>
+          <span class="alt-domain">refprojects.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refbridges.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refbridges.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refbridges.com</span>
+          <span class="alt-domain">refbridges.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refconnects.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refconnects.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refconnects.com</span>
+          <span class="alt-domain">refconnects.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refbuilds.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refbuilds.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refbuilds.com</span>
+          <span class="alt-domain">refbuilds.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refsupport.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refsupport.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refsupport.com</span>
+          <span class="alt-domain">refsupport.net</span>
+        </td>
+      </tr>
+    </table>
+
+    <div class="category">Category 4: Evocative & Emotional (9 available)</div>
+    <table>
+      <tr>
+        <th>Domain</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Purchase</th>
+        <th>Alternatives</th>
+      </tr>
+      <tr>
+        <td class="domain-cell">emenikehope.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=emenikehope.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">emenikehope.com</span>
+          <span class="alt-domain">emenikehope.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">emenikefutures.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=emenikefutures.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">emenikefutures.com</span>
+          <span class="alt-domain">emenikefutures.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">emenikeimpact.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=emenikeimpact.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">emenikeimpact.com</span>
+          <span class="alt-domain">emenikeimpact.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">hopebyemenike.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=hopebyemenike.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">hopebyemenike.com</span>
+          <span class="alt-domain">hopebyemenike.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">refhope.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=refhope.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">refhope.com</span>
+          <span class="alt-domain">refhope.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">ref-hope.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=ref-hope.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">ref-hope.com</span>
+          <span class="alt-domain">ref-hope.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">reffutures.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=reffutures.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">reffutures.com</span>
+          <span class="alt-domain">reffutures.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">hopeinmotion.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">futuresinfocus.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">motionforfutures.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=motionforfutures.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">motionforfutures.com</span>
+          <span class="alt-domain">motionforfutures.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">dignityandhope.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=dignityandhope.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">dignityandhope.com</span>
+          <span class="alt-domain">dignityandhope.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">bridgetohope.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div class="category">Category 5: Creative & Combination (4 available)</div>
+    <table>
+      <tr>
+        <th>Domain</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Purchase</th>
+        <th>Alternatives</th>
+      </tr>
+      <tr>
+        <td class="domain-cell">roselineshope.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=roselineshope.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">roselineshope.com</span>
+          <span class="alt-domain">roselineshope.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">theemenikeproject.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=theemenikeproject.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">theemenikeproject.com</span>
+          <span class="alt-domain">theemenikeproject.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">re-foundation.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="domain-cell">re-impact.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=re-impact.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">re-impact.com</span>
+          <span class="alt-domain">re-impact.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">buildwithref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=buildwithref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="alternatives">
+          <span class="alt-domain">buildwithref.com</span>
+          <span class="alt-domain">buildwithref.net</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="domain-cell">thehopebridge.org</td>
+        <td><span class="taken">❌ Taken</span></td>
+        <td><span class="price">—</span></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div class="category">Personalized Examples (4 available)</div>
+    <table>
+      <tr>
+        <th>Domain</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Purchase</th>
+        <th>Email Example</th>
+      </tr>
+      <tr>
+        <td class="domain-cell">chika-emenike.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=chika-emenike.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="email">chika@chika-emenike.org</td>
+      </tr>
+      <tr>
+        <td class="domain-cell">chikaref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=chikaref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="email">chika@chikaref.org</td>
+      </tr>
+      <tr>
+        <td class="domain-cell">info-ref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=info-ref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="email">info@info-ref.org</td>
+      </tr>
+      <tr>
+        <td class="domain-cell">contact-ref.org</td>
+        <td><span class="available">✅ Available</span></td>
+        <td><span class="price">$12.99/yr</span></td>
+        <td><a href="https://www.namecheap.com/domains/registration/results/?domain=contact-ref.org" target="_blank" class="purchase-link">Buy</a></td>
+        <td class="email">contact@contact-ref.org</td>
+      </tr>
+    </table>
+
+    <div class="selection-required-notice">
+      <div class="notice-icon">⚠️</div>
+      <h3>Action Required</h3>
+      <p>Please select at least one domain by clicking on any available domain row.</p>
+      <p>Your selection is required to proceed with domain registration.</p>
+    </div>
+    
+    <footer>
+      <p>Total available domains: 37</p>
+      <p>Generated for Roseline Emenike Foundation</p>
+      <p>Click on any available domain row to select it for registration!</p>
+      <p class="credit">Powered by <strong>Tola Ogunnaike Domain Services</strong></p>
+    </footer>
+  </div>
+</body>
+</html>
